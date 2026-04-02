@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+        body {
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+        .box {
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            width:300px;
+            height:350px;
+            border:1px solid gray;
+            background-color: aliceblue;
+            border-radius:20px;
+        }
+        #p1 {
+            margin-top:10px;
+            font-size:14px;
+        }
+        #p2 {
+            margin-top:10px;
+            font-size:15px;
+        }
+        .food img {
+            width:220px;
+            height:180px;
+            border-radius: 10px;
+        }
+        .btn {
+            margin-top:15px;
+        }
+        button {
+            border:none;
+            background-color:rgb(79, 146, 228);
+            border-radius:10px;
+            width:95%;
+            color:white;
+            height:30px;
+            cursor:pointer;
+        }
+        button:hover {
+            background-color:rgb(55, 136, 236);
+            transform:scale(1.03);
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="food">
+            <img src="C:\Users\RyzeN\Downloads\pizza.webp">
+            <p id="p1">Enjoy the authentic original italian pizza. <br>
+                One bite and you feels like you are in italy.<br>
+                Come and try now!!
+            </p>
+            <p id="p2">Price : $15</p>
+            <div class="btn">
+                <button id="btn">Buy Now</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const btn = document.getElementById("btn");
+
+        btn.addEventListener("click",() => {
+            btn.innerHTML = "Processing...";
+            setTimeout(() => {
+                let result = confirm("Are you sure, you want to purchase this item?");
+                setTimeout(() => {
+                    if(!result) {
+                        alert("Order cancelled");
+                        btn.innerHTML = "Order Cancelled";
+                    } else {
+                        alert("Purchased successfully");
+                        btn.innerHTML = "Order Successfull!";
+                    }
+                },2000)
+            },1000)
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+</head>
+<body>
+    <h2>Products</h2>
+    <div id="products"></div>
+
+    <h2>Cart</h2>
+    <ul id="cart"></ul>
+    <p>Total:$<span id="total">0</span></p>
+
+    <script>
+        const products = [
+            {id:1, name:"Phone", price:500},
+            {id:2, name:"Laptop", price:1000}
+        ];
+        
+        let cart = [];
+
+        const productDiv = document.getElementById("products");
+        const cartList = document.getElementById("cart");
+        const totalEl = document.getElementById("total");
+
+        // Show Products
+        products.forEach(p => {
+            const btn = document.createElement("button");
+            btn.innerHTML = `Add${p.name} ($${p.price})`;
+            btn.onclick = () => addToCart(p);
+            productDiv.appendChild(btn);
+        });
+
+        // Add To Cart
+        function addToCart(products) {
+            cart.push(products);
+            renderCart();
+        }
+
+        // Render Cart
+        function renderCart() {
+            cartList.innerHTML = "";
+            let total = 0;
+            cart.forEach((item,index) => {
+                total+= item.price;
+                const li = document.createElement("li");
+                li.innerHTML = `${item.name} - $${item.price}
+                <button onclick="removeItem(${index})">X</button>`;
+                cartList.appendChild(li);
+            });
+            totalEl.innerText = total;
+        }
+        
+        // Remove Item
+        function removeItem(index) {
+            cart.splice(index,1);
+            renderCart();
+        }
+    </script>
+</body>
+</html>

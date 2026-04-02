@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StopWatch</title>
+</head>
+<body>
+    <h1 id="time">0</h1>
+    <button onclick="Start()">Start</button>
+    <button onclick="Stop()">Stop</button>
+    <button onclick="Reset()">Reset</button>
+
+    <script>
+        let seconds = 0;
+        let interval;
+
+        function Start() {
+            if(interval) return;
+            interval = setInterval(() => {
+                seconds++;
+                document.getElementById("time").innerText = seconds;
+            },100);
+        }
+
+        function Stop() {
+            clearInterval(interval);
+            interval = null;
+        }
+
+        function Reset() {
+            Stop()
+            seconds = 0;
+            document.getElementById("time").innerText = seconds;
+        }
+    </script>
+</body>
+</html>

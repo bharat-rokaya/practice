@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess Number</title>
+
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial;
+        }
+
+        .guess {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid black;
+            border-radius: 10px;
+            width: 320px;
+            height: 280px;
+            background: rgb(244, 245, 246);
+        }
+        
+        input {
+            height: 20px;
+            outline: none;
+        }
+
+        .guess button {
+            font-size: 15px;
+            border-radius: 7px;
+            border: 1px solid gray;
+            background: rgb(171, 229, 248);
+            width: 100px;
+            height: 30px;
+            margin-top: 12px;
+            cursor: pointer;
+        }
+
+        .guess button:hover {
+            transform: scale(1.05);
+        }
+
+        #display {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        #attempts {
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        #restart {
+            display: none;
+            background: rgb(170, 255, 170);
+        }
+
+        .shake {
+            animation: shake 0.4s;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-6px);
+            }
+
+            50% {
+                transform: translateX(6px);
+            }
+
+            75% {
+                transform: translateX(-6px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .win {
+            animation: winAnim 0.8s infinite alternate;
+        }
+
+        @keyframes winAnim {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="guess" id="gameBox">
+
+        <h3>Guess Number (1-100)</h3>
+
+        <input type="text" id="num">
+
+        <p id="display"></p>
+
+        <p id="attempts">Attempts left: 10</p>
+
+        <button id="btn">Check</button>
+
+        <button id="restart">Restart</button>
+
+    </div>
+
+    <script>
+
+        let randomNum;
+        let attempts;
+
+        const input = document.getElementById("num");
+        const display = document.getElementById("display");
+        const btn = document.getElementById("btn");
+        const attemptsText = document.getElementById("attempts");
+        const restartBtn = document.getElementById("restart");
+        const gameBox = document.getElementById("gameBox");
+
+        startGame();
+
+        function startGame() {
+
+            randomNum = Math.floor(Math.random() * 100) + 1;
+            attempts = 10;
+
+            display.textContent = "";
+            attemptsText.textContent = "Attempts left: 10";
+
+            btn.disabled = false;
+            restartBtn.style.display = "none";
+
+            gameBox.classList.remove("win");
+
+            input.value = "";
+            input.focus();
+        }
+
+        btn.addEventListener("click", () => {
+
+            if (attempts <= 0) return;
+
+            const guess = Number(input.value);
+
+            display.textContent = "Checking...";
+
+            setTimeout(() => {
+
+                if (guess > 100 || guess < 1 || isNaN(guess)) {
+                    display.textContent = "Enter number between 1-100";
+                    shakeInput();
+                    return;
+                }
+
+                attempts--;
+
+                if (guess === randomNum) {
+
+                    display.textContent = "🎉 Correct! You Won!";
+                    gameBox.classList.add("win");
+                    btn.disabled = true;
+                    restartBtn.style.display = "block";
+
+                }
+
+                else if (guess > randomNum) {
+
+                    display.textContent = "Too High!";
+                    shakeInput();
+
+                }
+
+                else {
+
+                    display.textContent = "Too Low!";
+                    shakeInput();
+
+                }
+
+                attemptsText.textContent = "Attempts left: " + attempts;
+
+                if (attempts === 0 && guess !== randomNum) {
+
+                    display.textContent = "❌ Game Over! Number was " + randomNum;
+                    btn.disabled = true;
+                    restartBtn.style.display = "block";
+
+                }
+
+                input.value = "";
+                input.focus();
+
+            }, 1000);
+
+        });
+
+        restartBtn.addEventListener("click", startGame);
+
+        function shakeInput() {
+
+            input.classList.add("shake");
+
+            setTimeout(() => {
+                input.classList.remove("shake");
+            }, 400);
+
+        }
+
+    </script>
+
+</body>
+
+</html>

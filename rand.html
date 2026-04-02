@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Control</title>
+    <style>
+        input {
+            width:200px;
+            height:20px;
+        }
+        button {
+            margin-top:20px;
+            margin-right:10px;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="text" placeholder="Type here...">
+    <br>
+    <button id="lowCase">Lower Case</button>
+    <button id="upCase">Upper Case</button>
+    <button id="randColor">Change Color</button>
+    <script>
+        const inputText = document.getElementById("text");
+        const lowCase = document.getElementById("lowCase");
+        const upCase = document.getElementById("upCase");
+        const randColor = document.getElementById("randColor");
+
+        lowCase.addEventListener("click",() => {
+            lowCase.innerHTML = "Converting...";
+            setTimeout(() => {
+                inputText.value = inputText.value.toLowerCase();
+                lowCase.innerHTML = "Lower Case";
+            },1000);
+        })
+
+        upCase.addEventListener("click",() => {
+            upCase.innerHTML = "Converting...";
+            setTimeout(() => {
+                inputText.value = inputText.value.toUpperCase();
+                upCase.innerHTML = "Upper Case";
+            },1000);
+        })
+
+        randColor.addEventListener("click",() => {
+            function getRandomColor() {
+                return "#" + Math.floor(Math.random()*16777215).toString(16);
+            }
+            randColor.innerHTML = "Changing...";
+            setTimeout(() => {
+                const color1 = getRandomColor();
+                const color2 = getRandomColor();
+                //Ensure both color are different
+                while(color1===color2) {
+                    color2 = getRandomColor();
+                }
+                document.body.style.backgroundColor = color1;
+                inputText.style.color = color2;
+                randColor.innerHTML = "Change Color";
+            },1000);
+        })
+    </script> 
+</body>
+</html>
