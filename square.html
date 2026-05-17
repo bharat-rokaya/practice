@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Square</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-blue-200 h-screen flex items-center justify-center">
+
+    <div class="bg-blue-300 flex flex-col justify-center w-auto h-auto p-6 rounded-xl">
+
+        <label for="num" class="text-xl font-semibold mb-2">Enter the number</label>
+        <input type="number" name="num" id="num" class="outline-1 focus:outline-blue-600 p-1">
+
+        <p id="numError" class="text-red-500 font-sm mt-1"></p>
+
+        <div class="flex gap-4 mt-4">
+            <button id="clear" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded" onclick="num.value=''">C</button>
+            <button id="square" class="bg-blue-500 hover:bg-blue-600 text-white p-3 py-1 rounded">x²</button>
+            <button id="root" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">√</button>
+        </div>
+
+    </div>
+
+    <script>
+        const squareBtn = document.getElementById('square');
+        const rootBtn = document.getElementById('root');
+        const numInput = document.getElementById('num');
+        const numError = document.getElementById('numError');
+
+        squareBtn.addEventListener('click', () => {
+            
+            const num = parseFloat(numInput.value);
+
+            if (numInput.value == '') {
+                numError.innerHTML = 'Please enter a number'; 
+            } else if (isNaN(num)) {
+                numError.innerHTML = 'Please enter a valid number';
+            } else {
+                numInput.value = num * num;
+            }
+        });
+
+        rootBtn.addEventListener('click', () => {
+            const num = parseFloat(numInput.value);
+             if (numInput.value == '') {
+                numError.innerHTML = 'Please enter a number';   
+            } else if (isNaN(num)) {
+                numError.innerHTML = 'Please enter a valid number';
+            } else {
+                numInput.value = Math.sqrt(num);
+            }
+        });
+    </script>
+</body>
+</html>

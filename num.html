@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="" id="username" placeholder="Username"><br>
+    <input type="password" id="password" placeholder="Password"><br>
+    <input id="check" type="checkbox" name="" id="check">Show password<br>
+    <button id="btn">Login</button>
+    <script>
+        const username = document.getElementById('username'); 
+        const password = document.getElementById('password');
+        const check = document.getElementById('check');
+        const btn = document.getElementById('btn');
+
+        check.addEventListener('click', () => {
+            if(password.type === 'password') {
+                password.type = 'text';
+            } else {
+                password.type = 'password';
+            }
+        })
+
+        btn.addEventListener('click', () => {
+            const user = username.value.trim();
+            const pass = password.value.trim();
+            btn.textContent = 'Processing...';
+            let isValidate = true;
+            setTimeout(() => {
+                if(user === '') {
+                    alert('Please enter the username.');
+                    isValidate = false;
+                } else if(pass === '') {
+                    alert('Please enter the password');
+                    isValidate = false;
+                } else if(pass.length<5) {
+                    alert('Password must be 6 characters long');
+                    isValidate = false;
+                }
+                
+                
+                if(isValidate) {
+                    alert('Logged in successfully!');
+                }
+                btn.textContent = 'login';
+            },1000);
+        })
+    </script>
+</body>
+</html>
