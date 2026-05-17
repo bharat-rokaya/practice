@@ -10,15 +10,16 @@
 
     <div class="bg-blue-300 flex flex-col justify-center w-auto h-auto p-6 rounded-xl">
 
-        <label for="num" class="text-xl font-semibold mb-2">Enter the number</label>
-        <input type="number" name="num" id="num" class="outline-1 focus:outline-blue-600 p-1">
+        <label for="num" class="text-xl text-gray-900 font-semibold mb-2">Enter the number:</label>
+        <input type="number" name="num" id="num" class="rounded outline-1 focus:outline-blue-600 px-2 py-1">
 
         <p id="numError" class="text-red-500 font-sm mt-1"></p>
 
         <div class="flex gap-4 mt-4">
-            <button id="clear" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded" onclick="num.value=''">C</button>
-            <button id="square" class="bg-blue-500 hover:bg-blue-600 text-white p-3 py-1 rounded">x²</button>
-            <button id="root" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">√</button>
+            <button id="clear" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105" onclick="num.value=''">C</button>
+            <button id="square" class="bg-blue-500 hover:bg-blue-600 text-white p-3 py-1 rounded transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">x²</button>
+            <button id="root" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">√</button>
+            <button id="cube" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">x³</button>
         </div>
 
     </div>
@@ -28,16 +29,16 @@
         const rootBtn = document.getElementById('root');
         const numInput = document.getElementById('num');
         const numError = document.getElementById('numError');
+        const cubeBtn = document.getElementById('cube');
 
         squareBtn.addEventListener('click', () => {
-            
             const num = parseFloat(numInput.value);
-
             if (numInput.value == '') {
                 numError.innerHTML = 'Please enter a number'; 
             } else if (isNaN(num)) {
                 numError.innerHTML = 'Please enter a valid number';
             } else {
+                numError.innerHTML = '';
                 numInput.value = num * num;
             }
         });
@@ -46,10 +47,25 @@
             const num = parseFloat(numInput.value);
              if (numInput.value == '') {
                 numError.innerHTML = 'Please enter a number';   
+            } else if (num < 0) {
+                numError.innerHTML = 'Please enter a non-negative number';    
             } else if (isNaN(num)) {
                 numError.innerHTML = 'Please enter a valid number';
             } else {
+                numError.innerHTML = '';
                 numInput.value = Math.sqrt(num);
+            }
+        });
+
+        cubeBtn.addEventListener('click', () => {
+            const num = parseFloat(numInput.value);
+            if (numInput.value == '') {
+                numError.innerHTML = 'Please enter a number'; 
+            } else if (isNaN(num)) {
+                numError.innerHTML = 'Please enter a valid number';
+            } else {
+                numError.innerHTML = '';
+                numInput.value = num * num * num;
             }
         });
     </script>
