@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadratic equation</title>
+</head>
+<body>
+    <div>
+        <label for="a">value of a</label>
+        <input type="number" name="a" id="a">
+
+        <label for="b">value of b</label>
+        <input type="number" name="b" id="b">
+
+        <label for="c">value of c</label>
+        <input type="number" name="c" id="c">
+
+        <input id="root" readonly>
+
+        <button id="check">Check</button>
+
+    </div>
+
+    <script>
+        const check = document.getElementById('check');
+
+        check.addEventListener('click', () => {
+            const a = Number(document.getElementById('a'));
+            const b = Number(document.getElementById('b'));
+            const c = Number(document.getElementById('c'));
+            const root = Number(document.getElementById('root'));
+
+            root.value = '';
+
+            setTimeout(() => {
+                let x1 = (((-b)+(Math.sqrt((b*b)-(4*a*c))))/(2*a));
+                let x2 = (((-b)-(Math.sqrt((b*b)-(4*a*c))))/(2*a));
+
+                root.value = `roots are: {x1} and {x2}`;
+            }, 1000);
+        })
+    </script>
+</body>
+</html>

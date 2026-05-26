@@ -36,11 +36,17 @@
         }
         #name, #password {
             width:80%;
-            height:30px;
-            border:1px solid black;
+            height:35px;
+            font-size:14px;
+            border: none;
             border-radius:10px;
             padding-left:10px;
             margin-top:10px;
+        }
+
+        #name:focus, #password:focus {
+            outline:none;
+            border:1px solid blue;;
         }
         #userError {
             border:none;
