@@ -56,7 +56,7 @@
             margin-bottom:5px;
         }
         .show {
-            transform:translate(105px,-23px);
+            transform:translate(105px,-25px);
         }
         .show img {
             width:20px;
@@ -64,20 +64,33 @@
         }
         #btn {
             width:80%;
-            height:30px;
+            height:35px;
             background-color:rgb(129, 181, 255);
-            border:1px solid black;
+            border:none;
             border-radius:10px;
-            font-weight:500px;
+            color:white;
+            font-size:16px;
             cursor:pointer;
+            transition: all 0.3s ease;
         }
-        a {
+        p {
+             margin-top:10px;
+            text-decoration:none;
+            
+            
+        }
+
+        p a {
             text-decoration:none;
             color:blue;
-            margin-top:10px;
+            margin-left:5px;
+        }
+
+        p a:hover {
+            text-decoration:underline;
         }
         #btn:hover {
-            transform:scale(1.04);
+            transform:scale(1.02);
             background-color:rgb(89, 154, 246);
         }
     </style>
@@ -91,7 +104,7 @@
                 <img class="img2" id="image" src="images/eyeoff.png">
             </div>
             <button id="btn">Login</button>
-            <a href="create.html">New here? Create an account</a>
+            <p>New here?<a href="create.html">Create an account</a></p>
         </div>
     </div>
 
