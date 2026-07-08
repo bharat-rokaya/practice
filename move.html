@@ -1,176 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ball Movement Game</title>
-
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mini Ball Game</title>
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#111,#222,#111);
-    font-family:Arial, Helvetica, sans-serif;
-}
-
-.main{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:25px;
-}
-
-h1{
-    color:white;
-    letter-spacing:3px;
-}
-
-.game{
-    width:500px;
-    height:400px;
-    border:4px solid #00ffff;
-    border-radius:15px;
-    background:#1d1d1d;
-    position:relative;
-    overflow:hidden;
-    box-shadow:0 0 30px cyan;
-}
-
-#ball{
-    width:60px;
-    height:60px;
-    border-radius:50%;
-    background:radial-gradient(circle,#ff7777,#ff0000);
-    position:absolute;
-    left:220px;
-    top:170px;
-    transition:.15s;
-    box-shadow:
-        0 0 10px red,
-        0 0 25px red,
-        0 0 45px crimson;
-}
-
-.controls{
-    display:grid;
-    grid-template-columns:repeat(3,70px);
-    gap:10px;
-}
-
-button{
-    height:55px;
-    font-size:22px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    background:#222;
-    color:#00ffff;
-    transition:.2s;
-    box-shadow:0 0 10px cyan;
-}
-
-button:hover{
-    transform:scale(1.08);
-    background:#00ffff;
-    color:#111;
-}
-
-button:active{
-    transform:scale(.95);
-}
-
-.empty{
-    visibility:hidden;
-}
-</style>
-
-</head>
-<body>
-
-<div class="main">
-
-<h1>🎮 Move The Ball</h1>
-
-<div class="game">
-    <div id="ball"></div>
-</div>
-
-<div class="controls">
-    <div class="empty"></div>
-    <button id="up">⬆</button>
-    <div class="empty"></div>
-
-    <button id="left">⬅</button>
-    <button id="down">⬇</button>
-    <button id="right">➡</button>
-</div>
-
-</div>
-
+*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#111;color:#fff;display:flex;justify-content:center;align-items:center;height:100vh}
+#wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+#hud{display:flex;gap:20px;font-weight:bold}
+#game{width:700px;height:450px;position:relative;background:#1b1b1b;border:3px solid #0ff;border-radius:12px;overflow:hidden;box-shadow:0 0 25px cyan}
+#player{position:absolute;width:32px;height:32px;border-radius:50%;background:#f33;box-shadow:0 0 15px red}
+.coin{position:absolute;width:20px;height:20px;border-radius:50%;background:gold}
+.enemy{position:absolute;width:30px;height:30px;background:#7f5cff}
+.ob{position:absolute;background:#666}
+#msg{font-size:24px}
+button{padding:8px 18px}
+</style></head><body>
+<div id=wrap><div id=hud><span id=s>Score:0</span><span id=l>Lives:3</span><span id=t>Time:60</span><span id=h>High:0</span></div>
+<div id=game><div id=player></div><div class=enemy id=e></div><div class=coin id=c></div></div>
+<div id=msg></div><button onclick="location.reload()">Restart</button></div>
 <script>
-
-const ball=document.getElementById("ball");
-const game=document.querySelector(".game");
-
-let x=220;
-let y=170;
-
-const speed=15;
-
-function move(dx,dy){
-
-    const maxX=game.clientWidth-ball.offsetWidth;
-    const maxY=game.clientHeight-ball.offsetHeight;
-
-    x+=dx;
-    y+=dy;
-
-    if(x<0) x=0;
-    if(y<0) y=0;
-    if(x>maxX) x=maxX;
-    if(y>maxY) y=maxY;
-
-    ball.style.left=x+"px";
-    ball.style.top=y+"px";
+const g=game,p=player,e=document.getElementById('e'),c=document.getElementById('c');
+let x=50,y=50,ex=600,ey=350,score=0,lives=3,time=60,speed=3,run=true;
+let hs=+localStorage.high||0;h.textContent='High:'+hs;
+const obs=[];for(let i=0;i<5;i++){let d=document.createElement('div');d.className='ob';let w=80,hh=20;if(i%2){w=20;hh=80}d.style.width=w+'px';d.style.height=hh+'px';d.x=Math.random()*(700-w);d.y=Math.random()*(450-hh);d.style.left=d.x+'px';d.style.top=d.y+'px';g.appendChild(d);obs.push(d);}
+function rc(){c.x=Math.random()*680;c.y=Math.random()*430;c.style.left=c.x+'px';c.style.top=c.y+'px';}
+rc();
+const k={};onkeydown=e=>k[e.key.toLowerCase()]=1;onkeyup=e=>k[e.key.toLowerCase()]=0;
+function hit(ax,ay,aw,ah,bx,by,bw,bh){return ax<bx+bw&&ax+aw>bx&&ay<by+bh&&ay+ah>by}
+setInterval(()=>{if(!run)return;time--;t.textContent='Time:'+time;if(time<=0)end();},1000);
+function end(){run=false;if(score>hs){localStorage.high=score;}msg.textContent='Game Over! Score '+score;}
+function loop(){
+if(run){
+ let ox=x,oy=y;
+ if(k.arrowup||k.w)y-=speed;if(k.arrowdown||k.s)y+=speed;if(k.arrowleft||k.a)x-=speed;if(k.arrowright||k.d)x+=speed;
+ x=Math.max(0,Math.min(668,x));y=Math.max(0,Math.min(418,y));
+ for(let o of obs){if(hit(x,y,32,32,o.x,o.y,o.offsetWidth,o.offsetHeight)){x=ox;y=oy;}}
+ let dx=x-ex,dy=y-ey,d=Math.hypot(dx,dy)||1;ex+=dx/d*1.5;ey+=dy/d*1.5;
+ if(hit(x,y,32,32,c.x,c.y,20,20)){score++;s.textContent='Score:'+score;rc();}
+ if(hit(x,y,32,32,ex,ey,30,30)){lives--;l.textContent='Lives:'+lives;x=50;y=50;if(lives<=0)end();}
+ p.style.left=x+'px';p.style.top=y+'px';e.style.left=ex+'px';e.style.top=ey+'px';
 }
-
-up.onclick=()=>move(0,-speed);
-down.onclick=()=>move(0,speed);
-left.onclick=()=>move(-speed,0);
-right.onclick=()=>move(speed,0);
-
-document.addEventListener("keydown",(e)=>{
-
-    switch(e.key){
-
-        case "ArrowUp":
-            move(0,-speed);
-            break;
-
-        case "ArrowDown":
-            move(0,speed);
-            break;
-
-        case "ArrowLeft":
-            move(-speed,0);
-            break;
-
-        case "ArrowRight":
-            move(speed,0);
-            break;
-    }
-
-});
-
-</script>
-
-</body>
-</html>
+requestAnimationFrame(loop)}
+loop();
+</script></body></html>
